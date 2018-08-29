@@ -576,7 +576,7 @@ char commande(int point_d_energie, float point_d_action,  char action, int tab[i
 		bondir(point_d_energie, tab[i][j], orientation);
 }
 
-void vague_energie(float point_d_action, int point_d_energie, int orientation)
+void vague_energie(float point_d_action, int point_d_energie, int orientation, int tab[i][j])
 {
 	
 	if (orientation == 1) //Nord
@@ -677,5 +677,4 @@ void main(int argc, char const *argv[])
 		//point_d_energie = point_d_energie - 2;
 	}
 	return 0;
-
 }
