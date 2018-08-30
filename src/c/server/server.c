@@ -1,4 +1,5 @@
 #include "../../../include/c/zhelpers.h"
+#include "../../../functions.c"
 #include <unistd.h>
 
 
