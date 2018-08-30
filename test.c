@@ -1,6 +1,6 @@
-#include <time.h> 
-#include <stdio.h>
-#include <stdlib.h>
+//#include <time.h> 
+//#include <stdio.h>
+//#include <stdlib.h>
 
 void sleep_clock(clock_t duree) 
 { 
@@ -11,15 +11,15 @@ void sleep_clock(clock_t duree)
 typedef struct joueur joueur; /* Permet d'appeler joueur sans rappeler que c'est un struct à chaque fois */
 struct joueur
 {
-	static int point_d_energie = 50;
-	static float point_d_action = 1;
-	static int pos_x;
-	static int pos_y;
+	int point_d_energie;
+	float point_d_action;
+	int pos_x;
+	int pos_y;
 	char* name; /* Dans quoi est utilisé name ? J'ai créé nametag pour générer un nom de joueur en règle, il faudrait faire une vérification à la création d'un nametag pour voir s'il n'est pas déjà attribué, sinon relancer la fonction pour générer un nouveau nom */
-	static char nametag[6];
+	char nametag[6];
 	//char com;
-	static int orientation; // Orientation pren les valeurs de 0 à 3 ( 0 -> gauche, 1 -> haut, 2 -> droite et 4 -> bas)
-	static int statut = 0;
+	int orientation; // Orientation pren les valeurs de 0 à 3 ( 0 -> gauche, 1 -> haut, 2 -> droite et 4 -> bas)
+	int statut; /* Le statut indique si le joueur peut jouer ou pas, à chaque cycle on vérifie le statut et on fait -1 s'il est supérieur à 0 pour signifier qu'un cyle a été passé */
 
 };
 typedef struct Plateau Plateau; /* Il faut encore initialiser le tableau à "empty " et implémenter les cases surcharge en "energy", puis installer les joueurs */
@@ -30,12 +30,12 @@ struct Plateau {
 
 typedef struct EnergyCell EnergyCell;
 struct EnergyCell
-	int pos_energie_x;
-	int pos_energie_y;
-	int valeur_energie;
+	unsigned int pos_energie_x;
+	unsigned int pos_energie_y;
+	unsigned int valeur_energie;
 };
 
-struct NotificationType
+enum NotificationType
 {
 	cycle_info = 0;
 	game_started = 1;
@@ -45,12 +45,9 @@ struct NotificationType
 };
 
 
-char nametag[6]() /* Renvoie une chaine de charactère aléatoire selon les règles (deux derniers chiffres au hasard) du jeu qui sera l'identifiant du joueur */
+char nametag(char* identifiant) /* Renvoie une chaine de charactère aléatoire selon les règles (deux derniers chiffres au hasard) du jeu qui sera l'identifiant du joueur */
 {
-	char nametag[] = "#0x00",
-	nametag[3] = 48 + (rand() % 10);
-	nametag[4] = 48 + (rand() % 10);
-	return nametag[];
+	/* A implémenter */
 }
 
 int selfid() /* Affiche l'identifiant du joueur */
