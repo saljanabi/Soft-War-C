@@ -29,8 +29,7 @@ struct Plateau {
 };
 
 typedef struct EnergyCell EnergyCell;
-struct EnergyCell /* Il faut implémenter les energy cells au début de la partie, je ne sais pas comment faire pour implémenter leur extraction */
-{
+struct EnergyCell
 	int pos_energie_x;
 	int pos_energie_y;
 	int valeur_energie;
@@ -44,6 +43,7 @@ struct NotificationType
 	client_dead = 3;
 	client_win = 4;
 };
+
 
 char nametag[6]() /* Renvoie une chaine de charactère aléatoire selon les règles (deux derniers chiffres au hasard) du jeu qui sera l'identifiant du joueur */
 {
@@ -75,24 +75,23 @@ int next() /* A faire : passer son tour */
 
 }
 
-int deplacer_gauche(int tab[i][j], float point_d_action, int orientation) 
+int leftfwd(int tab[i][j], float point_d_action, int orientation) 
 {
 	if (orientation == 0) /*l'action à suivre si le joueur regarde vers le haut*/
 	{
 		if (j - 1 >= 0)
 		{
-			if (tab[i][j - 1] == 'joueur' ) /*On vérifie si la case de gauche contient un joueur*/
+			if (tab[i][j - 1] == "joueur" ) /*On vérifie si la case de gauche contient un joueur*/
 			{
 				printf("ko\n"); /* Selon les règles deux processus ne peuvent pas rentrer en collision et on renvoie "ko" */
 			}
 			else /*On met à jour la position du joueur sur le tableau et ses coordonnées, on modifie son orientation et on lui retire un point d'action*/
 			{
-				tab[i][j - 1] = 'joueur';
-				tab[i][j + 1] = 0;
+				tab[i][j - 1] = "joueur";
+				tab[i][j] = "empty";
 				joueur.pos_x--;
 				orientation = (orientation + 3) % 4; 
 				point_d_action--;
-				return tab[i][j];
 			}
 		}
 		else /*Sinon on est hors plateau*/
@@ -105,18 +104,17 @@ int deplacer_gauche(int tab[i][j], float point_d_action, int orientation)
 	{
 		if (i - 1 >= 0)
 		{
-			if (tab[i - 1][j] == 'joueur' ) /*On vérifie si la case de gauche contient un joueur*/
+			if (tab[i - 1][j] == "joueur" ) /*On vérifie si la case de gauche contient un joueur*/
 			{
 				printf("ko\n");
 			}
 			else /*On met à jour la position du joueur sur le tableau et ses coordonnées, on modifie son orientation et on lui retire un point d'action*/
 			{
-				tab[i - 1][j] = 'joueur';
-				tab[i][j] = 0;
+				tab[i - 1][j] = "joueur";
+				tab[i][j] = "empty";
 				joueur.pos_y--;
 				orientation = (orientation + 3) % 4; 
 				point_d_action--;
-				return tab[i][j];
 			}
 		}
 		else /*Sinon on est hors plateau*/
@@ -129,18 +127,17 @@ int deplacer_gauche(int tab[i][j], float point_d_action, int orientation)
 	{
 		if (j + 1 << 10)
 		{
-			if (tab[i][j + 1] == 'joueur' ) /*On vérifie si la case de droite contient un joueur*/
+			if (tab[i][j + 1] == "joueur" ) /*On vérifie si la case de droite contient un joueur*/
 			{
 				printf("ko\n");
 			}
 			else /*On met à jour la position du joueur sur le tableau et ses coordonnées, on modifie son orientation et on lui retire un point d'action*/
 			{
-				tab[i][j + 1] = 'joueur';
-				tab[i][j - 1] = 0;
+				tab[i][j + 1] = "joueur";
+				tab[i][j] = "empty";
 				joueur.pos_x++;
 				orientation = (orientation + 3) % 4; 
 				point_d_action--;
-				return tab[i][j];
 			}
 		}
 		else /*Sinon on est hors plateau*/
@@ -153,18 +150,17 @@ int deplacer_gauche(int tab[i][j], float point_d_action, int orientation)
 	{
 		if (i + 1 << 10)
 		{
-			if (tab[i + 1][j] == 'joueur') /*On vérifie si la case du bas contient un joueur*/
+			if (tab[i + 1][j] == "joueur") /*On vérifie si la case du bas contient un joueur*/
 			{
 				printf("ko\n");
 			}
 			else /*On met à jour la position du joueur sur le tableau et ses coordonnées, on modifie son orientation et on lui retire un point d'action*/
 			{
-				tab[i + 1][j] = 'joueur';
-				tab[i - 1][j] = 0;
+				tab[i + 1][j] = "joueur";
+				tab[i][j] = "empty";
 				joueur.pos_y++;
 				orientation = (orientation + 3) % 4; 
 				point_d_action--;
-				return tab[i][j];
 			}
 		}
 		else /*Sinon on est hors plateau*/
@@ -175,108 +171,120 @@ int deplacer_gauche(int tab[i][j], float point_d_action, int orientation)
 	return tab[i][j];
 }
 
-int deplacer_droite(int tab[i][j], float point_d_action, int orientation) /* à modifier en copiant déplacer_gauche */
+int rightfwd(int tab[i][j], float point_d_action, int orientation) 
 {
-	if (orientation == 0)
+	
+	if (orientation == 0) /*l'action à suivre si le joueur regarde vers le haut*/
 	{
-		if (tab[i][j - 1] == "|")
+		if (j + 1 <= 10)
 		{
-			printf("Mouvement impossible, vous etes en face des limites du plateau\n");
-			/* code */
+			if (tab[i][j + 1] == "joueur" ) /*On vérifie si la case de droite contient un joueur*/
+			{
+				printf("ko\n"); /* Selon les règles deux processus ne peuvent pas rentrer en collision et on renvoie "ko" */
+			}
+			else /*On met à jour la position du joueur sur le tableau et ses coordonnées, on modifie son orientation et on lui retire un point d'action*/
+			{
+				tab[i][j + 1] = "joueur";
+				tab[i][j] = "empty";
+				joueur.pos_x--;
+				orientation = (orientation + 3) % 4; 
+				point_d_action--;
+			}
 		}
-		else if (tab[i][j - 1] == "x")
+		else /*Sinon on est hors plateau*/
 		{
-			tab[i][j] = tab[i][j - 1];
-			point_d_action--;
-			return tab[i][j];
-			/* code */
-		}
-		else if (tab[i][j - 1] == "1" || tab[i][j - 1] == "2" || tab[i][j - 1] == "3" || tab[i][j - 1] == "4")
-		{
-			printf("Mouvement impossible, vous ne pouvez pas prendre la place d'un adversaire\n");
+			printf("Mouvement impossible, vous avez atteint la limite du plateau\n");
 		}
 	}
 
-	if (orientation == 1)
+	if (orientation == 1) /*l'action à suivre si le joueur regarde vers la droite*/
 	{
-		if (tab[i + 1][j] == "|")
+		if (i + 1 <= 10)
 		{
-			printf("Mouvement impossible, vous etes en face des limites du plateau\n");
-			/* code */
+			if (tab[i + 1][j] == "joueur" ) /*On vérifie si la case de gauche contient un joueur*/
+			{
+				printf("ko\n");
+			}
+			else /*On met à jour la position du joueur sur le tableau et ses coordonnées, on modifie son orientation et on lui retire un point d'action*/
+			{
+				tab[i + 1][j] = "joueur";
+				tab[i][j] = "empty";
+				joueur.pos_y--;
+				orientation = (orientation + 3) % 4; 
+				point_d_action--;
+			}
 		}
-		else if (tab[i + 1][j] == "x")
+		else /*Sinon on est hors plateau*/
 		{
-			tab[i][j] = tab[i + 1][j];
-			point_d_action--;
-			return tab[i][j];
-			/* code */
-		}
-		else if (tab[i + 1][j] == "1" || tab[i + 1][j] == "2" || tab[i + 1][j] == "3" || tab[i + 1][j] == "4")
-		{
-			printf("Mouvement impossible, vous ne pouvez pas prendre la place d'un adversaire\n");
+			printf("Mouvement impossible, vous avez atteint la limite du plateau\n");
 		}
 	}
 
-	if (orientation == 2)
+	if (orientation == 2) /*l'action à suivre si le joueur regarde vers le bas*/
 	{
-		if (tab[i][j+1] == "|")
+		if (j - 1 >= 0)
 		{
-			printf("Mouvement impossible, vous etes en face des limites du plateau\n");
-			/* code */
+			if (tab[i][j - 1] == "joueur" ) /*On vérifie si la case de droite contient un joueur*/
+			{
+				printf("ko\n");
+			}
+			else /*On met à jour la position du joueur sur le tableau et ses coordonnées, on modifie son orientation et on lui retire un point d'action*/
+			{
+				tab[i][j - 1] = "joueur";
+				tab[i][j] = "empty";
+				joueur.pos_x++;
+				orientation = (orientation + 3) % 4; 
+				point_d_action--;
+			}
 		}
-		else if (tab[i][j+1] == "x")
+		else /*Sinon on est hors plateau*/
 		{
-			tab[i][j] = tab[i][j+1];
-			point_d_action--;
-			return tab[i][j];
-			/* code */
+			printf("Mouvement impossible, vous avez atteint la limite du plateau\n");
 		}
-		else if (tab[i][j+1] == "1" || tab[i][j+1] == "2" || tab[i][j+1] == "3" || tab[i][j+1] == "4")
-		{
-			printf("Mouvement impossible, vous ne pouvez pas prendre la place d'un adversaire\n");
-		}
-
 	}
 
-	if (orientation == 3)
+	if (orientation == 3) /*l'action à suivre si le joueur regarde vers la gauche*/
 	{
-		if (tab[i - 1][j] == "|")
+		if (i - 1 >= 0)
 		{
-			printf("Mouvement impossible, vous etes en face des limites du plateau\n");
-			/* code */
+			if (tab[i - 1][j] == "joueur") /*On vérifie si la case du bas contient un joueur*/
+			{
+				printf("ko\n");
+			}
+			else /*On met à jour la position du joueur sur le tableau et ses coordonnées, on modifie son orientation et on lui retire un point d'action*/
+			{
+				tab[i - 1][j] = "joueur";
+				tab[i][j] = "empty";
+				joueur.pos_y++;
+				orientation = (orientation + 3) % 4; 
+				point_d_action--;
+			}
 		}
-		else if (tab[i - 1][j] == "x")
+		else /*Sinon on est hors plateau*/
 		{
-			tab[i][j] = tab[i - 1][j];
-			point_d_action--;
-			return tab[i][j];
-			/* code */
-		}
-		else if (tab[i - 1][j] == "1" || tab[i - 1][j] == "2" || tab[i - 1][j] == "3" || tab[i - 1][j] == "4")
-		{
-			printf("Mouvement impossible, vous ne pouvez pas prendre la place d'un adversaire\n");
+			printf("Mouvement impossible, vous avez atteint la limite du plateau\n");
 		}
 	}
 	return tab[i][j];
 }
 
-int deplacer_haut(int tab[i][j], float point_d_action, int orientation)
+int forward(int tab[i][j], float point_d_action, int orientation)
 {
 	if (orientation == 0)
 	{
-		if (tab[i - 1][j] == "-")
+		if (i - 1 << 0)
 		{
-			printf("Mouvement impossible, vous etes en face des limites du plateau\n");
+			printf("ko\n");
 			/* code */
 		}
-		else if (tab[i - 1][j] == "x")
+		else if (tab[i - 1][j] == "empty")
 		{
-			tab[i][j] = tab[i - 1][j];
-			point_d_action = point_d_action - 0.5;
-			return tab[i][j];
-			/* code */
+			tab[i - 1][j] = "joueur";
+			tab[i][j] = "empty";
+			joueur.pos_y--;
+			point_d_action = point_d_action - 0.5;/
 		}
-		else if (tab[i - 1][j] == "1" || tab[i - 1][j] == "2" || tab[i - 1][j] == "3" || tab[i - 1][j] == "4")
+		else if (tab[i - 1][j] = "joueur")
 		{
 			printf("Mouvement impossible, vous ne pouvez pas prendre la place d'un adversaire\n");
 		}		
@@ -285,19 +293,18 @@ int deplacer_haut(int tab[i][j], float point_d_action, int orientation)
 
 	if (orientation == 1)
 	{
-		if (tab[i][j - 1] == "-")
+		if (j + 1 >>9)
 		{
-			printf("Mouvement impossible, vous etes en face des limites du plateau\n");
-			/* code */
+			printf("ko\n");
 		}
-		else if (tab[i][j - 1] == "x")
+		else if (tab[i][j + 1] == "empty")
 		{
-			tab[i][j] = tab[i][j - 1];
+			tab[i][j + 1] = "joueur";
+			tab[i][j] = "empty";
+			joueur.pos_x++;
 			point_d_action = point_d_action - 0.5;
-			return tab[i][j];
-			/* code */
 		}
-		else if (tab[i][j - 1] == "1" || tab[i][j - 1] == "2" || tab[i][j - 1] == "3" || tab[i][j - 1] == "4")
+		else if (tab[i - 1][j] = "joueur")
 		{
 			printf("Mouvement impossible, vous ne pouvez pas prendre la place d'un adversaire\n");
 		}		
@@ -305,19 +312,18 @@ int deplacer_haut(int tab[i][j], float point_d_action, int orientation)
 
 	if (orientation == 2)
 	{
-		if (tab[i + 1][j] == "-")
+		if (i + 1 >> 9)
 		{
-			printf("Mouvement impossible, vous etes en face des limites du plateau\n");
-			/* code */
+			printf("ko\n");
 		}
-		else if (tab[i + 1][j]== "x")
+		else if (tab[i + 1][j] == "empty")
 		{
-			tab[i][j] = tab[i + 1][j];
+			tab[i + 1][j] = "joueur";
+			tab[i][j] = "empty";
+			joueur.pos_y++;
 			point_d_action = point_d_action - 0.5;
-			return tab[i][j];
-			/* code */
 		}
-		else if (tab[i + 1][j] == "1" || tab[i + 1][j] == "2" || tab[i + 1][j] == "3" || tab[i + 1][j] == "4")
+		else if (tab[i + 1][j] = "joueur")
 		{
 			printf("Mouvement impossible, vous ne pouvez pas prendre la place d'un adversaire\n");
 		}		
@@ -326,64 +332,61 @@ int deplacer_haut(int tab[i][j], float point_d_action, int orientation)
 
 	if (orientation == 3)
 	{
-		if (tab[i][j + 1] == "-")
+		if (j - 1 << 0)
 		{
-			printf("Mouvement impossible, vous etes en face des limites du plateau\n");
-			/* code */
+			printf("ko\n");
 		}
-		else if (tab[i][j + 1] == "x")
+		else if (tab[i][j - 1] == "empty")
 		{
-			tab[i][j] = tab[i][j + 1];
+			tab[i][j - 1] = "joueur";
+			tab[i][j] = "empty";
+			joueur.pos_x--;
 			point_d_action = point_d_action - 0.5;
-			return tab[i][j];
-			/* code */
 		}
-		else if (tab[i][j + 1] == "1" || tab[i][j + 1] == "2" || tab[i][j + 1] == "3" || tab[i][j + 1] == "4")
+		else if (tab[i][j - 1] = "joueur")
 		{
 			printf("Mouvement impossible, vous ne pouvez pas prendre la place d'un adversaire\n");
-		}	
+		}		
 	}
 	return tab[i][j];
 }
 
-int deplacer_bas(int tab[i][j], float point_d_action, int orientation)
+int backward(int tab[i][j], float point_d_action, int orientation)
 {
 	if (orientation == 0)
 	{
-		if (tab[i + 1][j] == "-")
+		if (i + 1 >> 9)
 		{
-			printf("Mouvement impossible, vous etes en face des limites du plateau\n");
-			/* code */
+			printf("ko\n");
 		}
-		else if (tab[i + 1][j] == "x")
+		else if (tab[i - 1][j] == "empty")
 		{
-			tab[i][j] = tab[i + 1][j];
-			point_d_action--;
-			return tab[i][j];
-			/* code */
+			tab[i + 1][j] = "joueur";
+			tab[i][j] = "empty";
+			joueur.pos_y++;
+			point_d_action = point_d_action - 0.5;/
 		}
-		else if (tab[i + 1][j] == "1" || tab[i + 1][j] == "2" || tab[i + 1][j] == "3" || tab[i + 1][j] == "4")
+		else if (tab[i - 1][j] = "joueur")
 		{
 			printf("Mouvement impossible, vous ne pouvez pas prendre la place d'un adversaire\n");
-		}			
+		}		
 		
 	}
 
 	if (orientation == 1)
 	{
-		if (tab[i][j + 1] == "-")
+		if (j - 1 << 0)
 		{
-			printf("Mouvement impossible, vous etes en face des limites du plateau\n");
-			/* code */
+			printf("ko\n");
 		}
-		else if (tab[i][j + 1] == "x")
+		else if (tab[j - 1][j] == "empty")
 		{
-			tab[i][j] = tab[i][j + 1];
-			point_d_action--;
-			return tab[i][j];
-			/* code */
+			tab[i][j - 1] = "joueur";
+			tab[i][j] = "empty";
+			joueur.pos_x--;
+			point_d_action = point_d_action - 0.5;/
 		}
-		else if (tab[i][j + 1] == "1" || tab[i][j + 1] == "2" || tab[i][j + 1] == "3" || tab[i][j + 1] == "4")
+		else if (tab[i][j - 1] = "joueur")
 		{
 			printf("Mouvement impossible, vous ne pouvez pas prendre la place d'un adversaire\n");
 		}		
@@ -391,45 +394,42 @@ int deplacer_bas(int tab[i][j], float point_d_action, int orientation)
 
 	if (orientation == 2)
 	{
-		if (tab[i - 1][j] == "-")
+		if (i - 1 << 0)
 		{
-			printf("Mouvement impossible, vous etes en face des limites du plateau\n");
+			printf("ko\n");
 			/* code */
 		}
-		else if (tab[i - 1][j] == "x")
+		else if (tab[i][j- 1] == "empty")
 		{
-			tab[i][j] = tab[i - 1][j];
-			point_d_action--;
-			return tab[i][j];
-			/* code */
+			tab[i][j - 1] = "joueur";
+			tab[i][j] = "empty";
+			joueur.pos_y--;
+			point_d_action = point_d_action - 0.5;/
 		}
-		else if (tab[i - 1][j] == "1" || tab[i - 1][j] == "2" || tab[i - 1][j] == "3" || tab[i - 1][j] == "4")
+		else if (tab[i - 1][j] = "joueur")
 		{
 			printf("Mouvement impossible, vous ne pouvez pas prendre la place d'un adversaire\n");
-		}			
+		}				
 	}
 
 
 	if (orientation == 3)
 	{
-		if (tab[i][j - 1] == "-")
+		if (j + 1 >> 9)
 		{
-			printf("Mouvement impossible, vous etes en face des limites du plateau\n");
-			/* code */
+			printf("ko\n");
 		}
-		else if (tab[i][j - 1] == "x")
+		else if (tab[i][j + 1] == "empty")
 		{
-			tab[i][j] = tab[i][j - 1];
-			point_d_action--;
-			return tab[i][j];
-			/* code */
+			tab[i][j + 1] = "joueur";
+			tab[i][j] = "empty";
+			joueur.pos_x++;
+			point_d_action = point_d_action - 0.5;/
 		}
-		else if (tab[i][j - 1] == "1" || tab[i][j - 1] == "2" || tab[i][j - 1] == "3" || tab[i][j - 1] == "4")
+		else if (tab[i][j + 1] = "joueur")
 		{
 			printf("Mouvement impossible, vous ne pouvez pas prendre la place d'un adversaire\n");
 		}		
-	}
-	return tab[i][j];
 }
 
 int bondir(int point_d_energie, int tab[i][j], int orientation)
@@ -517,17 +517,17 @@ int bondir(int point_d_energie, int tab[i][j], int orientation)
 	return tab[i][j];
 }
 
-void pivoter_right(int orientation)
+void right(int orientation)
 {
 	orientation = (orientation + 1) % 3;  
 }
 
-void pivoter_left(int orientation)
+void left(int orientation)
 {
 	orientation = (orientation - 1) % 3;  
 }
 
-char looking(int orientation)
+char looking(int joueur.orientation, int joueur.pos_x, int joueur.pos_y)
 {
 	char data = " ";
 	switch (orientation)
