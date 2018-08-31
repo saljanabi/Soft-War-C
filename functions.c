@@ -77,7 +77,7 @@ int next()
 
 
 
-/*int leftfwd(Joueur joueur,int tab[][], float point_d_action, int orientation) 
+/*int leftfwd(char** tab, float point_d_action, int orientation, Joueur joueur, int i, int j) 
 {
 	if (orientation == 0) 
 	{
@@ -175,7 +175,7 @@ int next()
 
 
 
-int rightfwd(int tab[i][j], float point_d_action, int orientation) 
+int rightfwd(char** tab, float point_d_action, int orientation, Joueur joueur, int i, int j) 
 {
 	
 	if (orientation == 0) 
@@ -272,7 +272,7 @@ int rightfwd(int tab[i][j], float point_d_action, int orientation)
 	return tab[i][j];
 }
 
-int forward(int tab[i][j], float point_d_action, int orientation)
+int forward(char** tab, float point_d_action, int orientation, Joueur joueur, int i, int j)
 {
 	if (orientation == 0)
 	{
@@ -630,7 +630,7 @@ void vague_energie(float point_d_action, int point_d_energie, int orientation, i
 	
 	if (orientation == 1) //Nord
 	{								//Case gauche										Case droite													Case en face										Case haut
-		if ((tab[i - 1][j - 1] =< "4" || tab[i - 1][j - 1] == "x") && (tab[i - 1][j + 1] =< "4" || tab[i - 1][j + 1] == "x") && (tab[i - 1][j] =< "4" || tab[i - 1][j] == "x") && (tab[i - 2][j] =< "4" || tab[i - 2][j] == "x"))
+		if ((tab[i - 1][j - 1] =< '4' || tab[i - 1][j - 1] == "empty") && (tab[i - 1][j + 1] =< '4' || tab[i - 1][j + 1] == "empty") && (tab[i - 1][j] =< '4' || tab[i - 1][j] == "empty") && (tab[i - 2][j] =< '4' || tab[i - 2][j] == "empty"))
 		{
 			
 		}
@@ -640,7 +640,7 @@ void vague_energie(float point_d_action, int point_d_energie, int orientation, i
 
 	if (orientation == 2 ) //Est
 	{								//Case gauche										Case droite													Case en face										Case haut
-		if ((tab[i - 1][j + 1] =< "4" || tab[i - 1][j + 1] == "x") && (tab[i + 1][j + 1] =< "4" || tab[i + 1][j + 1] == "x") && (tab[i][j + 1] =< "4" || tab[i][j + 1] == "x") && (tab[i][j + 2] =< "4" || tab[i][j + 2] == "x"))
+		if ((tab[i - 1][j + 1] =< '4' || tab[i - 1][j + 1] == "empty") && (tab[i + 1][j + 1] =< '4' || tab[i + 1][j + 1] == "empty") && (tab[i][j + 1] =< '4' || tab[i][j + 1] == "empty") && (tab[i][j + 2] =< '4' || tab[i][j + 2] == "empty"))
 		{
 			//point_d_energie = point_d_energie - 2;
 		}
@@ -650,7 +650,7 @@ void vague_energie(float point_d_action, int point_d_energie, int orientation, i
 
 	if (orientation == 3 ) //Sud
 	{
-		if ((tab[i + 1][j + 1] =< "4" || tab[i + 1][j + 1] == "x") && (tab[i + 1][j - 1] =< "4" || tab[i + 1][j - 1] == "x") && (tab[i + 1][j] =< "4" || tab[i + 1][j] == "x") && (tab[i + 2][j] =< "4" || tab[i + 2][j] == "x"))
+		if ((tab[i + 1][j + 1] =< '4' || tab[i + 1][j + 1] == "empty") && (tab[i + 1][j - 1] =< '4' || tab[i + 1][j - 1] == "empty") && (tab[i + 1][j] =< '4' || tab[i + 1][j] == "empty") && (tab[i + 2][j] =< '4' || tab[i + 2][j] == "empty"))
 		{
 			//point_d_energie = point_d_energie - 2;
 		}
@@ -660,7 +660,7 @@ void vague_energie(float point_d_action, int point_d_energie, int orientation, i
 
 	if (orientation == 0 ) //Ouest
 	{
-		if ((tab[i + 1][j - 1] =< "4" || tab[i + 1][j - 1] == "x") && (tab[i - 1][j + 1] =< "4" || tab[i - 1][j - 1] == "x") && (tab[i][j - 1] =< "4" || tab[i][j - 1] == "x") && (tab[i][j - 2] =< "4" || tab[i][j - 2] == "x"))
+		if ((tab[i + 1][j - 1] =< '4' || tab[i + 1][j - 1] == "empty") && (tab[i - 1][j + 1] =< '4' || tab[i - 1][j - 1] == "empty") && (tab[i][j - 1] =< '4' || tab[i][j - 1] == "empty") && (tab[i][j - 2] =< '4' || tab[i][j - 2] == "empty"))
 		{
 			//point_d_energie = point_d_energie - 2;
 		}
