@@ -30,6 +30,7 @@ struct Plateau {
 
 typedef struct EnergyCell EnergyCell;
 struct EnergyCell
+{
 	unsigned int pos_energie_x;
 	unsigned int pos_energie_y;
 	unsigned int valeur_energie;
@@ -65,8 +66,8 @@ int selfstats() /* Affiche le nombre de points d'énergie restant au joueur */
 int gather() /* Récolte de l'énergie sur une cellule qui en contient si le joueur est dessus, pas fait */
 {
 	if tab[joueur.pos_y][joueur.pos_x] == "energy"
-	}
 }
+
 int next() 
 {
 /* A faire : passer son tour */
@@ -433,19 +434,19 @@ int bondir(int point_d_energie, int tab[i][j], int orientation)
 {
 	if (orientation == 0)
 	{
-		if (tab[i - 2][j] == "|")
+		if (tab[i][j - 2] == "|")
 		{
 			printf("Mouvement impossible, vous etes en face des limites du plateau\n");
 			/* code */
 		}
-		else if (tab[i - 2][j] == "x")
+		else if (tab[i ][j - 2] == "x")
 		{
-			tab[i][j] = tab[i - 2][j];
+			tab[i][j] = tab[i ][j - 2];
 			point_d_energie = point_d_energie - 2;
 			return tab[i][j];
 			/* code */
 		}
-		else if (tab[i - 2][j] == "1" || tab[i - 2][j] == "2" || tab[i - 2][j] == "3" || tab[i - 2][j] == "4")
+		else if (tab[i ][j - 2] == "1" || tab[i ][j - 2] == "2" || tab[i ][j - 2] == "3" || tab[i ][j - 2] == "4")
 		{
 			printf("Mouvement impossible, vous ne pouvez pas prendre la place d'un adversaire\n");
 		}
@@ -453,19 +454,19 @@ int bondir(int point_d_energie, int tab[i][j], int orientation)
 	}
 	if (orientation == 1)
 	{
-		if (tab[i][j + 2] == "-")
+		if (tab[i - 2][j] == "-")
 		{
 			printf("Mouvement impossible, vous etes en face des limites du plateau\n");
 			/* code */
 		}
-		else if (tab[i][j + 2]  == "x")
+		else if (tab[i - 2][j]  == "x")
 		{
-			tab[i][j] = tab[i][j + 2] ;
+			tab[i][j] = tab[i - 2][j] ;
 			point_d_energie = point_d_energie - 2;
 			return tab[i][j];
 			/* code */
 		}
-		else if (tab[i][j + 2]  == "1" || tab[i][j + 2] == "2" || tab[i][j + 2] == "3" || tab[i][j + 2] == "4")
+		else if (tab[i - 2][j]  == "1" || tab[i - 2][j] == "2" || tab[i - 2][j] == "3" || tab[i - 2][j] == "4")
 		{
 			printf("Mouvement impossible, vous ne pouvez pas prendre la place d'un adversaire\n");
 		}
@@ -473,7 +474,27 @@ int bondir(int point_d_energie, int tab[i][j], int orientation)
 
 	if (orientation == 2)
 	{
-		if (tab[i + 2][j] == "|")
+		if (tab[i][j + 2] == "|")
+		{
+			printf("Mouvement impossible, vous etes en face des limites du plateau\n");
+			/* code */
+		}
+		else if (tab[i][j + 2] == "x")
+		{
+			tab[i][j] = tab[i][j + 2];
+			point_d_energie = point_d_energie - 2;
+			return tab[i][j];
+			/* code */
+		}
+		else if (tab[i][j + 2] == "1" || tab[i][j + 2] == "2" || tab[i][j + 2] == "3" || tab[i][j + 2] == "4")
+		{
+			printf("Mouvement impossible, vous ne pouvez pas prendre la place d'un adversaire\n");
+		}		
+	}
+
+	if (orientation == 3)
+	{
+		if (tab[i + 2][j] == "-")
 		{
 			printf("Mouvement impossible, vous etes en face des limites du plateau\n");
 			/* code */
@@ -490,29 +511,10 @@ int bondir(int point_d_energie, int tab[i][j], int orientation)
 			printf("Mouvement impossible, vous ne pouvez pas prendre la place d'un adversaire\n");
 		}		
 	}
-
-	if (orientation == 3)
-	{
-		if (tab[i][j+ 2] == "-")
-		{
-			printf("Mouvement impossible, vous etes en face des limites du plateau\n");
-			/* code */
-		}
-		else if (tab[i][j+ 2] == "x")
-		{
-			tab[i][j] = tab[i][j+ 2];
-			point_d_energie = point_d_energie - 2;
-			return tab[i][j];
-			/* code */
-		}
-		else if (tab[i][j+ 2] == "1" || tab[i][j+ 2] == "2" || tab[i][j+ 2] == "3" || tab[i][j+ 2] == "4")
-		{
-			printf("Mouvement impossible, vous ne pouvez pas prendre la place d'un adversaire\n");
-		}		
-	}
 	
 	return tab[i][j];
 }
+
 
 void right(int orientation)
 {
@@ -628,7 +630,7 @@ void vague_energie(float point_d_action, int point_d_energie, int orientation, i
 	
 	if (orientation == 1) //Nord
 	{								//Case gauche										Case droite													Case en face										Case haut
-		if ((tab[i - 1][j - 1] =< "4" || tab[i - 1][j - 1] == "x") && (tab[i + 1][j - 1] =< "4" || tab[i + 1][j - 1] == "x") && (tab[i][j - 1] =< "4" || tab[i][j - 1] == "x") && (tab[i][j - 2] =< "4" || tab[i][j - 2] == "x"))
+		if ((tab[i - 1][j - 1] =< "4" || tab[i - 1][j - 1] == "x") && (tab[i - 1][j + 1] =< "4" || tab[i - 1][j + 1] == "x") && (tab[i - 1][j] =< "4" || tab[i - 1][j] == "x") && (tab[i - 2][j] =< "4" || tab[i - 2][j] == "x"))
 		{
 			
 		}
@@ -638,7 +640,7 @@ void vague_energie(float point_d_action, int point_d_energie, int orientation, i
 
 	if (orientation == 2 ) //Est
 	{								//Case gauche										Case droite													Case en face										Case haut
-		if ((tab[i + 1][j - 1] =< "4" || tab[i + 1][j - 1] == "x") && (tab[i + 1][j + 1] =< "4" || tab[i + 1][j + 1] == "x") && (tab[i + 1][j] =< "4" || tab[i + 1][j] == "x") && (tab[i + 2][j] =< "4" || tab[i + 2][j] == "x"))
+		if ((tab[i - 1][j + 1] =< "4" || tab[i - 1][j + 1] == "x") && (tab[i + 1][j + 1] =< "4" || tab[i + 1][j + 1] == "x") && (tab[i][j + 1] =< "4" || tab[i][j + 1] == "x") && (tab[i][j + 2] =< "4" || tab[i][j + 2] == "x"))
 		{
 			//point_d_energie = point_d_energie - 2;
 		}
@@ -648,7 +650,7 @@ void vague_energie(float point_d_action, int point_d_energie, int orientation, i
 
 	if (orientation == 3 ) //Sud
 	{
-		if ((tab[i + 1][j + 1] =< "4" || tab[i + 1][j + 1] == "x") && (tab[i - 1][j + 1] =< "4" || tab[i - 1][j + 1] == "x") && (tab[i][j + 1] =< "4" || tab[i][j + 1] == "x") && (tab[i][j + 2] =< "4" || tab[i][j + 2] == "x"))
+		if ((tab[i + 1][j + 1] =< "4" || tab[i + 1][j + 1] == "x") && (tab[i + 1][j - 1] =< "4" || tab[i + 1][j - 1] == "x") && (tab[i + 1][j] =< "4" || tab[i + 1][j] == "x") && (tab[i + 2][j] =< "4" || tab[i + 2][j] == "x"))
 		{
 			//point_d_energie = point_d_energie - 2;
 		}
@@ -658,7 +660,7 @@ void vague_energie(float point_d_action, int point_d_energie, int orientation, i
 
 	if (orientation == 0 ) //Ouest
 	{
-		if ((tab[i - 1][j + 1] =< "4" || tab[i - 1][j + 1] == "x") && (tab[i - 1][j - 1] =< "4" || tab[i - 1][j - 1] == "x") && (tab[i - 1][j] =< "4" || tab[i - 1][j] == "x") && (tab[i - 2][j] =< "4" || tab[i - 2][j] == "x"))
+		if ((tab[i + 1][j - 1] =< "4" || tab[i + 1][j - 1] == "x") && (tab[i - 1][j + 1] =< "4" || tab[i - 1][j - 1] == "x") && (tab[i][j - 1] =< "4" || tab[i][j - 1] == "x") && (tab[i][j - 2] =< "4" || tab[i][j - 2] == "x"))
 		{
 			//point_d_energie = point_d_energie - 2;
 		}
